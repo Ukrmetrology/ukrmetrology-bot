@@ -1,0 +1,47 @@
+[18.11.2026 13:11:53,74] START 
+INFO:aiogram.dispatcher:Start polling
+INFO:aiogram.dispatcher:Run polling for bot @ukrmetrologybot id=9028642008 - 'УКРМЕТРОЛОГІЯ'
+[18.11.2026 13:13:31,97] START 
+INFO:aiogram.dispatcher:Start polling
+INFO:aiogram.dispatcher:Run polling for bot @ukrmetrologybot id=9028642008 - 'УКРМЕТРОЛОГІЯ'
+INFO:aiogram.event:Update id=78624402 is handled. Duration 169 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624403 is handled. Duration 122 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624404 is handled. Duration 79 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624405 is handled. Duration 101 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624406 is handled. Duration 77 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624407 is handled. Duration 101 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624408 is handled. Duration 170 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624409 is handled. Duration 331 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624410 is handled. Duration 77 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624411 is handled. Duration 94 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624412 is handled. Duration 72 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624413 is handled. Duration 555 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624414 is not handled. Duration 0 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624415 is not handled. Duration 0 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624416 is not handled. Duration 0 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624417 is handled. Duration 353 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624418 is not handled. Duration 0 ms by bot id=9028642008
+[18.11.2026 13:18:44,30] START 
+INFO:aiogram.dispatcher:Start polling
+[18.11.2026 13:18:52,91] START 
+INFO:aiogram.dispatcher:Start polling
+INFO:aiogram.dispatcher:Run polling for bot @ukrmetrologybot id=9028642008 - 'УКРМЕТРОЛОГІЯ'
+INFO:aiogram.event:Update id=78624420 is handled. Duration 194 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624421 is handled. Duration 223 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624419 is handled. Duration 249 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624423 is handled. Duration 289 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624422 is handled. Duration 337 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624424 is handled. Duration 78 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624425 is handled. Duration 81 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624426 is handled. Duration 92 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624427 is handled. Duration 196 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624428 is handled. Duration 218 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624429 is handled. Duration 76 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624430 is handled. Duration 78 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624431 is handled. Duration 82 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624432 is handled. Duration 546 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624433 is handled. Duration 61 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624434 is handled. Duration 68 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624435 is not handled. Duration 1 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624436 is handled. Duration 71 ms by bot id=9028642008
+INFO:aiogram.event:Update id=78624437 is handled. Duration 134 ms by bot id=9028642008
