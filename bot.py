@@ -279,42 +279,48 @@ async def abort(callback: CallbackQuery, state: FSMContext):
 
 @dp.callback_query(F.data == "confirm")
 async def confirm(callback: CallbackQuery, state: FSMContext):
+    # Acknowledge the Telegram callback immediately so the client-side spinner stops.
+    await callback.answer()
+
     if await state.get_state() != Intake.confirm.state:
-        return await callback.answer()
+        return
 
-    data = await state.get_data()
-    data.update(
-        user_id=callback.from_user.id,
-        username=callback.from_user.username or "",
-        created=datetime.now(ZoneInfo("Europe/Kyiv")).isoformat(timespec="seconds"),
-    )
-    app_id = db.create(data)
-    contract_date = local_date()
-    contract_no = f"{app_id:04d}/{contract_date}"
-    data.update(id=app_id, contract_no=contract_no, contract_date=contract_date)
-    db.update(app_id, data)
-
-    contract_path = None
-    contract_error = None
+    app_id = None
     try:
-        contract_path = create_contract(data)
-        db.set_contract(app_id, str(contract_path))
-    except Exception as error:
-        logger.exception("Contract generation failed for application %s", app_id)
-        contract_error = str(error)
+        data = await state.get_data()
+        data.update(
+            user_id=callback.from_user.id,
+            username=callback.from_user.username or "",
+            created=datetime.now(ZoneInfo("Europe/Kyiv")).isoformat(timespec="seconds"),
+        )
 
-    await callback.message.edit_text("Заявку прийнято")
-    manager_text = (
-        f"НОВА ЗАЯВКА №{app_id}\nНомер договору: {contract_no}\n"
-        f"Дата договору: {contract_date}\n\n"
-        f"ПІБ: {data['name']}\nТелефон: {data['phone']}\n"
-        f"Telegram: @{data['username'] or 'не вказано'}\n"
-        f"Послуга: {data['service']}\nТип приладу: {data['device']}\n"
-        f"Адреса об’єкта: {data['address']}\nКількість: {data['quantity']}\n"
-        f"Марка / модель / серійний номер: {data['details']}\n\n"
-        "Статус: очікує рішення менеджера."
-    )
-    try:
+        app_id = db.create(data)
+        contract_date = local_date()
+        contract_no = f"{app_id:04d}/{contract_date}"
+        data.update(id=app_id, contract_no=contract_no, contract_date=contract_date)
+        db.update(app_id, data)
+
+        contract_path = None
+        contract_error = None
+        try:
+            contract_path = create_contract(data)
+            db.set_contract(app_id, str(contract_path))
+        except Exception as error:
+            logger.exception("Contract generation failed for application %s", app_id)
+            contract_error = str(error)
+
+        manager_text = (
+            f"НОВА ЗАЯВКА №{app_id}\nНомер договору: {contract_no}\n"
+            f"Дата договору: {contract_date}\n\n"
+            f"ПІБ: {data['name']}\nТелефон: {data['phone']}\n"
+            f"Telegram: @{data['username'] or 'не вказано'}\n"
+            f"Послуга: {data['service']}\nТип приладу: {data['device']}\n"
+            f"Адреса об’єкта: {data['address']}\nКількість: {data['quantity']}\n"
+            f"Марка / модель / серійний номер: {data['details']}\n\n"
+            "Статус: очікує рішення менеджера."
+        )
+
+        # Send the application to the manager even if DOCX generation failed.
         await bot.send_message(
             MANAGER_CHAT_ID,
             manager_text + (f"\n\nПОМИЛКА ФОРМУВАННЯ ДОГОВОРУ: {contract_error}" if contract_error else ""),
@@ -329,16 +335,31 @@ async def confirm(callback: CallbackQuery, state: FSMContext):
                     "Перевірте документ, за потреби замініть DOCX, потім затвердіть."
                 ),
             )
-    except Exception:
-        logger.exception("Could not send application %s to manager chat %s", app_id, MANAGER_CHAT_ID)
-        await bot.send_message(
-            callback.from_user.id,
-            "Заявку прийнято, але сталася помилка передавання менеджеру. "
-            "Будь ласка, зв’яжіться з компанією.",
-        )
 
-    await state.clear()
-    await callback.answer()
+        await callback.message.edit_text("Заявку прийнято")
+        await state.clear()
+
+    except Exception:
+        logger.exception("Confirmation failed for user %s, application %s", callback.from_user.id, app_id)
+        try:
+            await callback.message.edit_text("Не вдалося завершити оформлення заявки. Менеджера повідомлено про помилку.")
+        except Exception:
+            pass
+        try:
+            await bot.send_message(
+                MANAGER_CHAT_ID,
+                f"ПОМИЛКА ПІД ЧАС ПІДТВЕРДЖЕННЯ ЗАЯВКИ. ID клієнта: {callback.from_user.id}. "
+                "Перевірте журнал запуску бота.",
+            )
+        except Exception:
+            logger.exception("Could not notify manager about confirmation failure")
+        try:
+            await bot.send_message(
+                callback.from_user.id,
+                "Не вдалося завершити оформлення. Будь ласка, зв’яжіться з компанією або спробуйте пізніше.",
+            )
+        except Exception:
+            logger.exception("Could not notify user about confirmation failure")
 
 
 @dp.callback_query(F.data.startswith("replace:"))
