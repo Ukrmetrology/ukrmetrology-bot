@@ -29,7 +29,7 @@ MANAGER_IDS = {
     if value.strip().isdigit()
 }
 MANAGER_IDS.add(MANAGER_ID)
-MANAGER_CHAT_ID = int(os.getenv("MANAGER_CHAT_ID", str(MANAGER_ID)))
+MANAGER_CHAT_ID = int(os.getenv("MANAGER_CHAT_ID", "-1004308287488"))
 COMPANY_PHONE = os.getenv("COMPANY_PHONE", "+380 67 009 13 88")
 
 if not TOKEN:
@@ -89,16 +89,17 @@ def confirmation_keyboard():
 
 
 def manager_keyboard(app_id: int, include_approve: bool = True):
-    rows = [[InlineKeyboardButton(
-        text="Замінити DOCX договору", callback_data=f"replace:{app_id}"
-    )]]
+    rows = []
     if include_approve:
         rows.append([
-            InlineKeyboardButton(text="Затвердити заявку", callback_data=f"approve:{app_id}"),
-            InlineKeyboardButton(text="Відхилити", callback_data=f"reject:{app_id}"),
+            InlineKeyboardButton(text="Затвердити та надіслати договір", callback_data=f"approve:{app_id}"),
+            InlineKeyboardButton(text="Відхилити заявку", callback_data=f"reject:{app_id}"),
         ])
     else:
-        rows.append([InlineKeyboardButton(text="Відхилити", callback_data=f"reject:{app_id}")])
+        rows.append([
+            InlineKeyboardButton(text="Завантажити виправлений DOCX", callback_data=f"replace:{app_id}"),
+            InlineKeyboardButton(text="Відхилити заявку", callback_data=f"reject:{app_id}"),
+        ])
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
